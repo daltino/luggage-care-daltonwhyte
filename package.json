@@ -4,7 +4,19 @@
   "description": "A restaurant application that allows users to order meals and provides various admin features to manage users and meal registrations",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "eslint": "eslint \"src/**/*.js\"",
+    "start": "concurrently \"yarn run dev-server\" \"yarn run dev-bundle\"",
+    "test": "jest",
+    "dev-server": "cross-env NODE_PATH=./src nodemon --exec \"babel-node src/api/api.js\" --ignore .reactful.json --ignore public/",
+    "dev-bundle": "webpack -wd",
+    "verify-tests": "jest --coverage",
+    "build-react": "cross-env NODE_ENV=production webpack --progress -p",
+    "build-node": "babel src -d build --config-file ./babel-node.config.js --copy-files",
+    "build-all": "yarn install && yarn run build-react && yarn run build-node",
+    "prod-start": "cross-env NODE_ENV=production NODE_PATH=./build pm2 start -i max build/api/api.js --update-env --name luggage-care-daltonwhyteProd",
+    "prod-stop": "pm2 stop luggage-care-daltonwhyteProd",
+    "prod-reload": "pm2 reload --update-env luggage-care-daltonwhyteProd",
+    "prod-logs": "pm2 logs --update-env luggage-care-daltonwhyteProd"
   },
   "repository": {
     "type": "git",
@@ -87,7 +99,7 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.6.1",
     "jest": "^24.8.0",
-    "nodemon": "^1.19.1",
+    "nodemon": "^1.19.4",
     "reactful": "^2.0.6"
   }
 }

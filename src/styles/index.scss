@@ -1,0 +1,16 @@
+$main: #555;
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  #root {
+    color: $main;
+    margin: auto;
+    text-align: center;
+  }
+  display: flex;
+}

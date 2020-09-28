@@ -36,4 +36,64 @@ Make sure to include instructions on how to get the application up and running a
 • A button on the “admin mobile page” can be pressed to call ahead using MessageBird to the subway restaurant, that a big order is coming their way ;)
 • You unit­test and acceptance­test the “complex” application
 
-## Running the Application
+## Setting up the Application
+
+Run the following commands to setup the application locally:
+
+- Install npm packages
+
+```bash
+npm install
+```
+
+- Install HomeBrew, then install Mongodb with Homebrew and create its data folder
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+brew update
+brew install mongodb
+mkdir -p /data/db
+sudo chown -R `id -un` /data/db
+# Enter your password
+```
+
+- Run Mongo daemon
+
+```bash
+mongod
+```
+
+
+### Running the Application
+
+- To run both the frontend web app and and the API service in dev run:
+
+```bash
+npm start
+```
+
+- To run just the API service in dev run:
+
+```bash
+npm run dev-server
+```
+
+- To build the frontend web app and and the API service in dev run:
+
+```bash
+npm run build-all
+```
+
+- To run or stop both the frontend web app and and the API service in prod run:
+
+```bash
+npm run prod-start
+npm run prod-stop
+```
+
+- To view all prod logs:
+
+```bash
+npm run prod-logs
+```

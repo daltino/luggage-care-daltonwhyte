@@ -5,14 +5,13 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import serialize from 'serialize-javascript';
 
-import config from 'server/config';
-import { serverRenderer } from 'renderers/server';
-import utils from '../math-utils.js';
+import config from './config';
+import { serverRenderer } from '../renderers/server';
 
 import { MongoClient } from 'mongodb';
 import { connection as db } from './models';
 
-import * as routes from './routes'
+import { routes } from './routes'
 
 const app = express();
 app.enable('trust proxy');

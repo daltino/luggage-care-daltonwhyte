@@ -3,7 +3,7 @@
 import mongoose from 'mongoose';
 import url from 'url';
 import _ from 'lodash';
-import config from 'server/config';
+import config from '../config';
 import extend from 'mongoose-schema-extend';
 import Promise from 'bluebird';
 

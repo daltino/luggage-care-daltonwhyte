@@ -116,7 +116,7 @@ exports.delete = (req, res) => {
 };
 
 
-// Find active meal
+// Find active ingredients
 exports.findAllActiveingredients = (_req, res) => {
   var condition = { 'status': true };
 

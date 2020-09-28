@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import UserController from './controllers/UserController';
-import OrderController from './controllers/OrderController';
-import MealController from './controllers/MealController';
-import IngredientController from './controllers/IngredientController';
+import UserController from './controllers/user.controller';
+import OrderController from './controllers/order.controller';
+import MealController from './controllers/meal.controller';
+import * as IngredientController from './controllers/ingredient.controller';
 
-module.exports = app => {
+exports.routes = app => {
   var router = Router();
 
   // *** BEGIN USER ROUTES ****
@@ -47,8 +47,8 @@ module.exports = app => {
   router.post('/meals', MealController.create);
   // Retrieve all Meals
   router.get('/meals', MealController.findAll);
-  // Retrieve all active Meals
-  router.get('/meals/active', MealController.findAllWithActiveMeals);
+  // Retrieve active Meal
+  router.get('/meals/active', MealController.findActiveMeal);
   // Retrieve a single Meal with id
   router.get('/meals/:id', MealController.findOne);
   // Update a Meal with id
@@ -65,7 +65,7 @@ module.exports = app => {
   // Retrieve all Meals
   router.get('/ingredients', IngredientController.findAll);
   // Retrieve all active Meals
-  router.get('/ingredients/active', IngredientController.findAllWithActiveMeals);
+  router.get('/ingredients/active', IngredientController.findAllActiveingredients);
   // Retrieve a single Meal with id
   router.get('/ingredients/:id', IngredientController.findOne);
   // Update a Meal with id
