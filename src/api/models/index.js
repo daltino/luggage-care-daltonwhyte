@@ -57,8 +57,8 @@ exports.config = {
 exports.connection = {
   mongoose: mongoose,
   url: config.mongoURL,
-  user: User,
-  ingredient: Ingredient,
-  meal: Meal,
-  order: Order,
+  user: User(mongoose),
+  ingredient: Ingredient(mongoose),
+  meal: Meal(mongoose),
+  order: Order(mongoose),
 };

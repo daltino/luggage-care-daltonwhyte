@@ -1,7 +1,7 @@
 import { connection as db } from '../models';
 import shortid from 'shortid';
 
-const Ingredient = db.Ingredient;
+const Ingredient = db.ingredient;
 
 // Create and Save a new Ingredient
 exports.create = (req, res) => {

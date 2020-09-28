@@ -1,7 +1,7 @@
 import { connection as db } from '../models';
 import shortid from 'shortid';
 
-const Order = db.Order;
+const Order = db.order;
 
 // Create and Save a new User
 exports.create = (req, res) => {

@@ -71,6 +71,7 @@ mongod
 
 ```bash
 npm start
+# Visit http://localhost:4242 in your web browser
 ```
 
 - To run just the API service in dev run:

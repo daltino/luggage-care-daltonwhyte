@@ -48,7 +48,7 @@ module.exports = mongoose => {
          * Admin who opened the meal
          */
         admin: {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'User'
         },
         /**
@@ -71,5 +71,5 @@ module.exports = mongoose => {
     )
   );
 
-  return User;
+  return Meal;
 };

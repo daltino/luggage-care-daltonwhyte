@@ -25,7 +25,7 @@ module.exports = mongoose => {
          * User who placed the order
          */
         user: {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'User'
         },
         /**
@@ -36,7 +36,7 @@ module.exports = mongoose => {
          * Meal for this order
          */
         meal: {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'Meal'
         },
         /**
@@ -47,7 +47,7 @@ module.exports = mongoose => {
          * Meal for this order
          */
         ingredients: [{
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'Ingredient'
         }],
         /**
@@ -70,5 +70,5 @@ module.exports = mongoose => {
     )
   );
 
-  return User;
+  return Order;
 };
