@@ -1,6 +1,6 @@
 module.exports = mongoose => {
   const Meal = mongoose.model(
-    "meal",
+    'meal',
     mongoose.Schema(
       {
         /**
@@ -43,7 +43,7 @@ module.exports = mongoose => {
         /**
          * @jsdoc value
          * @propertyOf Meal
-         * @name Meal.user
+         * @name Meal.admin
          * @description
          * Admin who opened the meal
          */

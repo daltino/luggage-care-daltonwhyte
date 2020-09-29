@@ -7,7 +7,7 @@ const Ingredient = db.ingredient;
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.name) {
-    res.status(400).send({ message: "Name of ingredient is required!" });
+    res.status(400).send({ message: 'Name of ingredient is required!' });
     return;
   }
 
@@ -28,7 +28,7 @@ exports.create = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Error while creating the ingredient."
+          err.message || 'Error while creating the ingredient.'
       });
     });
 };
@@ -45,7 +45,7 @@ exports.findAll = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Error while retrieving ingredients."
+          err.message || 'Error while retrieving ingredients.'
       });
     });
 };
@@ -57,13 +57,13 @@ exports.findOne = (req, res) => {
   Ingredient.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "No ingredient with id " + id });
+        res.status(404).send({ message: `No ingredient with id ${id}` });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving ingredient with id=" + id });
+        .send({ message:  `Error retrieving ingredient with id= ${id}` });
     });
 };
 
@@ -71,7 +71,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: "No data was provided for update!"
+      message: 'No data was provided for update!'
     });
   }
 
@@ -83,11 +83,11 @@ exports.update = (req, res) => {
         res.status(404).send({
           message: `Cannot update ingredient with id=${id}. Perhaps ingredient was not found!`
         });
-      } else res.send({ message: "ingredient was updated successfully." });
+      } else res.send({ message: 'ingredient was updated successfully.', data });
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating ingredient with id=" + id
+        message: `Error updating ingredient with id= ${id}`
       });
     });
 };
@@ -104,20 +104,20 @@ exports.delete = (req, res) => {
         });
       } else {
         res.send({
-          message: "ingredient was deleted successfully!"
+          message: 'ingredient was deleted successfully!'
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Failure deleting ingredient with id=" + id
+        message: `Failure deleting ingredient with id= ${id}`
       });
     });
 };
 
 
 // Find active ingredients
-exports.findAllActiveingredients = (_req, res) => {
+exports.findAllActiveIngredients = (_req, res) => {
   var condition = { 'status': true };
 
   Ingredient.find(condition)
@@ -127,7 +127,7 @@ exports.findAllActiveingredients = (_req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Error while retrieving active Ingredient."
+          err.message || 'Error while retrieving active Ingredient.'
       });
     });
 };

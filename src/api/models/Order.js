@@ -1,6 +1,6 @@
 module.exports = mongoose => {
   const Order = mongoose.model(
-    "order",
+    'order',
     mongoose.Schema(
       {
         /**
