@@ -83,7 +83,7 @@ exports.update = (req, res) => {
         res.status(404).send({
           message: `Cannot update ingredient with id=${id}. Perhaps ingredient was not found!`
         });
-      } else res.send({ message: "ingredient was updated successfully." });
+      } else res.send({ message: "ingredient was updated successfully.", data });
     })
     .catch(err => {
       res.status(500).send({

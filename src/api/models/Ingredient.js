@@ -15,7 +15,6 @@ module.exports = mongoose => {
           trim: true,
           index: true,
           unique: true,
-          match: /^[a-zA-Z0-9_]+$/,
         },
         /**
          * @jsdoc value
@@ -40,6 +39,17 @@ module.exports = mongoose => {
           trim: true,
           unique: true,
         }],
+        /**
+         * @jsdoc value
+         * @propertyOf Ingredient
+         * @name Ingredient.admin
+         * @description
+         * Admin who added the ingredient
+         */
+        admin: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User'
+        },
         /**
          * @jsdoc value
          * @propertyOf Ingredient

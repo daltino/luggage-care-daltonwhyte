@@ -43,7 +43,7 @@ module.exports = mongoose => {
         /**
          * @jsdoc value
          * @propertyOf Meal
-         * @name Meal.user
+         * @name Meal.admin
          * @description
          * Admin who opened the meal
          */
