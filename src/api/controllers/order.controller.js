@@ -7,7 +7,7 @@ const Order = db.order;
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.Order || !req.body.meal) {
-    res.status(400).send({ message: "Order and Meal is required!" });
+    res.status(400).send({ message: 'Order and Meal is required!' });
     return;
   }
 
@@ -19,17 +19,27 @@ exports.create = (req, res) => {
     ingredients: req.body.ingredients
   });
 
-  // Save Order in the database
-  order
-    .save(order)
+  // Get meal and check if its active
+  const Meal = db.meal;
+  Meal
+    .findById(meal)
     .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Error while creating the order."
-      });
+      if (data.status) {
+        // Save Order in the database
+        order
+        .save(order)
+        .then(data => {
+          res.send(data);
+        })
+        .catch(err => {
+          res.status(500).send({
+            message:
+              err.message || 'Error while creating the order.'
+          });
+        });
+      } else {
+        res.status(400).send({ message: 'Meal is no longer active, you cannot place this order'})
+      }
     });
 };
 
@@ -45,7 +55,7 @@ exports.findAll = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Error while retrieving orders."
+          err.message || 'Error while retrieving orders.'
       });
     });
 };
@@ -57,13 +67,13 @@ exports.findOne = (req, res) => {
   Order.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "No order with id " + id });
+        res.status(404).send({ message: `No order with id ${id}` });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving order with id=" + id });
+        .send({ message: `Error retrieving order with id= ${id}` });
     });
 };
 
@@ -71,7 +81,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: "No data was provided for update!"
+      message: 'No data was provided for update!'
     });
   }
 
@@ -83,11 +93,11 @@ exports.update = (req, res) => {
         res.status(404).send({
           message: `Cannot update Order with id=${id}. Perhaps Order was not found!`
         });
-      } else res.send({ message: "Order was updated successfully." });
+      } else res.send({ message: 'Order was updated successfully.' });
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Order with id=" + id
+        message: `Error updating Order with id= ${id}`
       });
     });
 };
@@ -104,13 +114,13 @@ exports.delete = (req, res) => {
         });
       } else {
         res.send({
-          message: "Order was deleted successfully!"
+          message: 'Order was deleted successfully!'
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Failure deleting Order with id=" + id
+        message: `Failure deleting Order with id= ${id}`
       });
     });
 };

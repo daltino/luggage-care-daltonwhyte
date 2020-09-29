@@ -8,7 +8,7 @@ const Order = db.order;
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.email) {
-    res.status(400).send({ message: "Email address is required!" });
+    res.status(400).send({ message: 'Email address is required!' });
     return;
   }
 
@@ -32,7 +32,7 @@ exports.create = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Error while creating the User."
+          err.message || 'Error while creating the User.'
       });
     });
 };
@@ -42,8 +42,8 @@ exports.findAll = (req, res) => {
   const name = req.query.name;
   var condition = name ? 
     { $or: [
-      { 'profile.firstName': { $regex: new RegExp(name), $options: "i" } },
-      { 'profile.lastName': { $regex: new RegExp(name), $options: "i" } }
+      { 'profile.firstName': { $regex: new RegExp(name), $options: 'i' } },
+      { 'profile.lastName': { $regex: new RegExp(name), $options: 'i' } }
     ] } 
     : {};
 
@@ -54,7 +54,7 @@ exports.findAll = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Error while retrieving users."
+          err.message || 'Error while retrieving users.'
       });
     });
 };
@@ -66,13 +66,13 @@ exports.findOne = (req, res) => {
   User.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "No user with id " + id });
+        res.status(404).send({ message: `No user with id ${id}` });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving user with id=" + id });
+        .send({ message: `Error retrieving user with id= ${id}` });
     });
 };
 
@@ -80,7 +80,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: "No data was provided for update!"
+      message: 'No data was provided for update!'
     });
   }
 
@@ -99,11 +99,11 @@ exports.update = (req, res) => {
         res.status(404).send({
           message: `Cannot update User with id=${id}. Perhaps User was not found!`
         });
-      } else res.send({ message: "User was updated successfully.", data });
+      } else res.send({ message: 'User was updated successfully.', data });
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating User with id=" + id
+        message: `Error updating User with id= ${id}`
       });
     });
 };
@@ -120,13 +120,13 @@ exports.delete = (req, res) => {
         });
       } else {
         res.send({
-          message: "User was deleted successfully!"
+          message: 'User was deleted successfully!'
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Failure deleting User with id=" + id
+        message: `Failure deleting User with id= ${id}`
       });
     });
 };
@@ -136,3 +136,30 @@ exports.delete = (req, res) => {
 exports.findAllWithActiveOrders = (req, res) => {
   
 };
+
+exports.checkIfIsAdmin = (req, res, next) => {
+  if (!req.body.admin) {
+    res.status(400).send({ message: 'Admin credentials not provided!' });
+    return;   
+  }
+
+  const id = req.body.admin;
+
+  User.findById(id)
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: `No admin with id ${id}` });
+      else {
+        if (data.roles.includes('admin')) {
+          next();
+        } else {
+          res.status(400).send({ message: 'User is not an admin!'})
+        }
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: 'Error retrieving user with id=' + id });
+    });
+}

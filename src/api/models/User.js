@@ -1,6 +1,6 @@
 module.exports = mongoose => {
   const User = mongoose.model(
-    "user",
+    'user',
     mongoose.Schema(
       {
         /**

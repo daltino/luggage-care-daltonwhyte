@@ -7,7 +7,7 @@ const Meal = db.meal;
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.name || !req.body.description) {
-    res.status(400).send({ message: "Name and Description of meal is required!" });
+    res.status(400).send({ message: 'Name and Description of meal is required!' });
     return;
   }
 
@@ -29,7 +29,7 @@ exports.create = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Error while creating the meal."
+          err.message || 'Error while creating the meal.'
       });
     });
 };
@@ -46,7 +46,7 @@ exports.findAll = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Error while retrieving meals."
+          err.message || 'Error while retrieving meals.'
       });
     });
 };
@@ -58,13 +58,13 @@ exports.findOne = (req, res) => {
   Meal.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "No meal with id " + id });
+        res.status(404).send({ message: `No meal with id ${id}` });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving meal with id=" + id });
+        .send({ message: `Error retrieving meal with id= ${id}` });
     });
 };
 
@@ -72,7 +72,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: "No data was provided for update!"
+      message: 'No data was provided for update!'
     });
   }
 
@@ -84,11 +84,11 @@ exports.update = (req, res) => {
         res.status(404).send({
           message: `Cannot update meal with id=${id}. Perhaps meal was not found!`
         });
-      } else res.send({ message: "meal was updated successfully.", data });
+      } else res.send({ message: 'meal was updated successfully.', data });
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating meal with id=" + id
+        message: `Error updating meal with id= ${id}`
       });
     });
 };
@@ -105,13 +105,13 @@ exports.delete = (req, res) => {
         });
       } else {
         res.send({
-          message: "meal was deleted successfully!"
+          message: 'meal was deleted successfully!'
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Failure deleting meal with id=" + id
+        message: `Failure deleting meal with id= ${id}`
       });
     });
 };
@@ -128,7 +128,7 @@ exports.findActiveMeal = (_req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Error while retrieving active meal."
+          err.message || 'Error while retrieving active meal.'
       });
     });
 };

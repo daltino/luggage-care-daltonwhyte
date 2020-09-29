@@ -1,6 +1,6 @@
 module.exports = mongoose => {
   const Ingredient = mongoose.model(
-    "ingredient",
+    'ingredient',
     mongoose.Schema(
       {
         /**
