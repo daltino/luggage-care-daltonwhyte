@@ -85,6 +85,13 @@ exports.update = (req, res) => {
   }
 
   const id = req.params.id;
+  
+  req.body.profile = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName
+  }
+  delete req.body.firstName;
+  delete req.body.lastName;
 
   User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
@@ -92,7 +99,7 @@ exports.update = (req, res) => {
         res.status(404).send({
           message: `Cannot update User with id=${id}. Perhaps User was not found!`
         });
-      } else res.send({ message: "User was updated successfully." });
+      } else res.send({ message: "User was updated successfully.", data });
     })
     .catch(err => {
       res.status(500).send({
