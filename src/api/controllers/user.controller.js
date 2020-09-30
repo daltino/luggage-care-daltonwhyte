@@ -137,23 +137,24 @@ exports.findAllWithActiveOrders = (req, res) => {
   
 };
 
-exports.checkIfIsAdmin = (req, res, next) => {
-  if (!req.body.admin) {
-    res.status(400).send({ message: 'Admin credentials not provided!' });
+exports.loginAdmin = (req, res, next) => {
+  if (!req.body.unique_code) {
+    res.status(400).send({ message: 'Admin login code not provided!' });
     return;   
   }
 
-  const id = req.body.admin;
+  const unique_code = req.body.unique_code;
+  const condition = { unique_code }
 
-  User.findById(id)
+  User.find(condition)
     .then(data => {
       if (!data)
         res.status(404).send({ message: `No admin with id ${id}` });
       else {
         if (data.roles.includes('admin')) {
-          next();
+          res.status(200).send(data);
         } else {
-          res.status(400).send({ message: 'User is not an admin!'})
+          res.status(400).send({ message: 'User is not an admin!'});
         }
       }
     })
@@ -162,4 +163,34 @@ exports.checkIfIsAdmin = (req, res, next) => {
         .status(500)
         .send({ message: 'Error retrieving user with id=' + id });
     });
+}
+
+exports.checkIfIsAdmin = (req, res, next) => {
+  next();
+
+  // @TODO: once magic link works update logic
+  // if (!req.body.admin) {
+  //   res.status(400).send({ message: 'Admin credentials not provided!' });
+  //   return;   
+  // }
+
+  // const id = req.body.admin;
+
+  // User.findById(id)
+  //   .then(data => {
+  //     if (!data)
+  //       res.status(404).send({ message: `No admin with id ${id}` });
+  //     else {
+  //       if (data.roles.includes('admin')) {
+  //         next();
+  //       } else {
+  //         res.status(400).send({ message: 'User is not an admin!'});
+  //       }
+  //     }
+  //   })
+  //   .catch(err => {
+  //     res
+  //       .status(500)
+  //       .send({ message: 'Error retrieving user with id=' + id });
+  //   });
 }

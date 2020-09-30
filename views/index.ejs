@@ -8,8 +8,13 @@
   <title><%- pageData.title %></title>
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="stylesheet" href="/bundles/<%- gVars['main'][0] -%>">
+  <link
+    async
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.css"
+  />
   <script type="text/javascript">
-    window.__R_DATA = <%- serialize({ initialData }, { isJSON: true }); %>
+    window.__R_DATA = <%- serialize({ initialData, pageData }, { isJSON: true }); %>
   </script>
 </head>
 <body>
