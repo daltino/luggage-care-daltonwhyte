@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Message } from 'semantic-ui-react'
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import config from '../../../env/config.dev';
 
 const API = `http://${config.host}:${config.port}/api/admin`;
@@ -10,7 +9,6 @@ export const UserForm = () => {
 
   const state = {};
   const [errorMessage, setErrorMessage] = useState(false);
-  const history = useHistory();
   const handleChange = (e, { name, value }) => state[name] = value;
 
   const addUser = () => {
@@ -25,7 +23,7 @@ export const UserForm = () => {
       `${API}/users`,
       payload
     )
-    .then(() => history.push('/admin'))
+    .then(() => window.location = '/admin')
     .catch(e => {
       setErrorMessage('Email may have already been registered! Or Unique Code generation conflict, try again!');
     });

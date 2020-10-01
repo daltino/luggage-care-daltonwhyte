@@ -8,6 +8,7 @@ const API = `http://${config.host}:${config.port}/api/admin`;
 export const MealList = (props) => {
 
   const [meals, setMeals] = useState([]);
+  const [prevUnlockIdx, setPrevUnlockIdx] = useState(0);
   const [mealFocused, setUserFocused] = useState({});
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -19,17 +20,42 @@ export const MealList = (props) => {
     setUserFocused(meal);
     setOpenConfirm(true);
   }
-  const closeConfirmBox = () => setOpenConfirm(false)
+  const closeConfirmBox = () => setOpenConfirm(false);
 
-  const banUser = () => {
+  const lockMeal = (meal, idx) => {
+    axios.put(
+      `${API}/meals/lock/${meal._id}`
+    )
+    .then(response => {
+      if (response.status === 200) {
+        meals[idx].status = false;
+        setMeals([...meals]);
+      }
+    })
+  };
+
+  const unlockMeal = (meal, idx) => {
+    setPrevUnlockIdx(idx);
+    axios.put(
+      `${API}/meals/unlock/${meal._id}`
+    )
+    .then(response => {
+      if (response.status === 200) {
+        meals[prevUnlockIdx].status = false;
+        meals[idx].status = true;
+        setMeals([...meals]);
+      }
+    })
+  };
+
+  const deleteMeal = () => {
     axios.delete(
       `${API}/meals/${mealFocused._id}`
     )
     .then(response => {
       if (response.status === 200) {
         meals.splice(mealFocused.idx, 1);
-        const newMeals = [...meals];
-        setMeals(newMeals);
+        setMeals([...meals]);
       }
       closeConfirmBox();
     })
@@ -45,7 +71,7 @@ export const MealList = (props) => {
         header='Delete User'
         open={openConfirm}
         onCancel={closeConfirmBox}
-        onConfirm={banUser}
+        onConfirm={deleteMeal}
       />
       <Table celled>
         <Table.Header>
@@ -64,12 +90,21 @@ export const MealList = (props) => {
               (<Table.Row key={meal._id}>
                 <Table.Cell>{meal.name}</Table.Cell>
                 <Table.Cell>{meal.description}</Table.Cell>
-                <Table.Cell>{meal.status}</Table.Cell>
+                <Table.Cell>{meal.status ? 'Active' : 'Inactive'}</Table.Cell>
                 <Table.Cell>{meal.createdAt}</Table.Cell>
                 <Table.Cell>
                   <Button.Group>
+                    <Button
+                      icon={meal.status ? 'lock open' : 'lock'}
+                      onClick={() => meal.status ? lockMeal(meal, idx) : unlockMeal(meal, idx)}
+                      title={meal.status ? 'Click to lock Meal' : 'Click to unlock Meal'} />
                     <Button icon='edit' />
-                    <Button icon='delete' value={meal} onClick={() => { meal.idx = idx; openDeleteConfirmBox(meal)}} />
+                    <Button
+                      icon='delete'
+                      value={meal}
+                      onClick={() => { meal.idx = idx; openDeleteConfirmBox(meal)}}
+                      title='Click to delete meal'
+                    />
                   </Button.Group>
                 </Table.Cell>
               </Table.Row>))

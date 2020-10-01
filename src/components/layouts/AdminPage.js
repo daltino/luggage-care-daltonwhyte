@@ -52,6 +52,7 @@ const AdminPage = () => {
   useEffect(() => {
     // magicLinkInst = useMagicLink(MAGIC_API_KEY);
 
+    // @TODO get all resources with one request
     axios.get(
       `${API}/users`
     )
@@ -61,6 +62,16 @@ const AdminPage = () => {
       `${API}/orders`
     )
     .then(data => setOrders(data.data));
+    
+    axios.get(
+      `${API}/meals`
+    )
+    .then(data => setMeals(data.data));
+
+    axios.get(
+      `${API}/ingredients`
+    )
+    .then(data => setIngredients(data.data));
   }, []);
 
   return (
@@ -139,7 +150,7 @@ const AdminPage = () => {
                 <Route exact path="/admin" render={() => <UserList users={users} />} />
                 <Route path="/admin/add-user" component={UserForm} />
                 <Route exact path="/admin/orders" render={() => <OrderList orders={orders} />} />
-                <Route path="/admin/orders/add-order" component={OrderForm} />
+                <Route path="/admin/orders/add-order" render={() => <OrderForm meals={meals} users={users} ingredients={ingredients} />} />
                 <Route exact path="/admin/meals" render={() => <MealList meals={meals} />} />
                 <Route path="/admin/meals/add-meal" component={MealForm} />
                 <Route exact path="/admin/ingredients" render={() => <IngredientList ingredients={ingredients} />} />

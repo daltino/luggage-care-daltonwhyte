@@ -95,6 +95,10 @@ exports.adminRoutes = app => {
   router.get('/meals/:id', MealController.findOne);
   // Update a Meal with id
   router.put('/meals/:id', MealController.update);
+  // Lock a Meal with id
+  router.put('/meals/lock/:id', MealController.lockMeal);
+  // Unlock a Meal with id
+  router.put('/meals/unlock/:id', MealController.unlockMeal);
   // Delete a Meal with id
   router.delete('/meals/:id', MealController.delete);
   

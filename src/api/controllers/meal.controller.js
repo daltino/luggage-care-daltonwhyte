@@ -93,6 +93,53 @@ exports.update = (req, res) => {
     });
 };
 
+// Lock a meal by the id in the request
+exports.lockMeal = (req, res) => {
+  const id = req.params.id;
+
+  Meal.updateMany({'status': true}, {'$set': {'status': false}})
+    .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: `Cannot update meal with id=${id}. Perhaps meal was not found!`
+          });
+        } else res.send({ message: 'meal was updated successfully.', data });
+      
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: `Error updating other meals ${err}`
+      });
+    });
+};
+
+// Unlock a meal by the id in the request
+exports.unlockMeal = (req, res) => {
+  const id = req.params.id;
+
+  Meal.updateMany({'status': true}, {'$set': {'status': false}})
+    .then(response => {
+      Meal.update({'_id': id}, {'$set': {'status': true}})
+        .then(data => {
+          if (!data) {
+            res.status(404).send({
+              message: `Cannot update meal with id=${id}. Perhaps meal was not found!`
+            });
+          } else res.send({ message: 'meal was updated successfully.', data });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: `Error updating meal with id= ${id}`
+          });
+        });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: `Error updating other meals ${err}`
+      });
+    });
+};
+
 // Delete a meal using id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;

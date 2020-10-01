@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, Message } from 'semantic-ui-react'
+import React, { useState, useEffect } from 'react';
+import { Form, Select, Button, Message } from 'semantic-ui-react'
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import config from '../../../env/config.dev';
 
 const API = `http://${config.host}:${config.port}/api/admin`;
 
-const OrderForm = () => {
+const OrderForm = (props) => {
 
   const state = {};
   const [errorMessage, setErrorMessage] = useState(false);
-  const history = useHistory();
+  const [users, setUsers] = useState([]);
+  const [meals, setMeals] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
   const handleChange = (e, { name, value }) => state[name] = value;
 
-  const addUser = () => {
+  useEffect(() => {
+    setUsers(props.users.map(user => (
+      { 
+        'key': user._id,
+        'text': `${user.profile.firstName} ${user.profile.lastName}`,
+        'value': user._id
+      })));
+    setMeals(props.meals.map(meal => ({
+      'key': meal._id,
+      'text': meal.name,
+      'value': meal._id
+    })));
+    setIngredients(props.ingredients.map(ingredient => ({
+      'key': ingredient._id,
+      'text': ingredient.name,
+      'value': ingredient._id
+    })));
+  }, []);
+
+  const addOrder = () => {
     const payload = {
       user: state.user,
       meal: state.meal,
@@ -22,60 +42,56 @@ const OrderForm = () => {
     }
 
     axios.post(
-      `${API}/users`,
+      `${API}/orders`,
       payload
     )
-    .then(() => history.push('/admin'))
+    .then(() => window.location = '/admin/orders')
     .catch(e => {
       setErrorMessage('Unique Code generation conflict, try again!');
     });
   }
 
   return (
-    <Form onSubmit={e => e.preventDefault() && addUser}>
+    <Form onSubmit={e => e.preventDefault() && addOrder}>
       <Message
           visible={errorMessage !== false}
           error
           header='Error Occured'
           content={errorMessage}
         />
-      <Form.Group widths='equal'>
-        <Form.Field
-          required
-          id='form-input-control-first-name'
-          control={Input}
-          label='First name'
-          name='firstName'
-          placeholder='First name'
-          onChange={handleChange}
-        />
-        <Form.Field
-          required
-          id='form-input-control-last-name'
-          control={Input}
-          label='Last name'
-          name='lastName'
-          placeholder='Last name'
-          onChange={handleChange}
-        />
-      </Form.Group>
       <Form.Field
-        id='form-input-control-error-email'
-        control={Input}
-        label='Email'
-        name='email'
-        placeholder='joe@schmoe.com'
-        error={{
-          content: 'Please enter a valid email address',
-          pointing: 'below',
-        }}
+        required
+        control={Select}
+        id='form-input-control-user'
+        placeholder='Select Customer'
+        name='user'
+        options={users}
+        onChange={handleChange}
+      />
+      <Form.Field
+        required
+        control={Select}
+        id='form-input-control-meal'
+        placeholder='Select Meal'
+        name='meal'
+        options={meals}
+        onChange={handleChange}
+      />
+      <Form.Field
+        required
+        control={Select}
+        id='form-input-control-ingredients'
+        placeholder='Select Ingredients'
+        multiple
+        name='ingredients'
+        options={ingredients}
         onChange={handleChange}
       />
       <Form.Field
         id='form-button-control-public'
         control={Button}
-        content='Add User'
-        onClick={addUser}
+        content='Add Order'
+        onClick={addOrder}
       />
     </Form>
   );

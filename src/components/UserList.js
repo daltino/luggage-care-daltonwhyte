@@ -21,15 +21,14 @@ const UserList = (props) => {
   }
   const closeConfirmBox = () => setOpenConfirm(false)
 
-  const banUser = () => {
+  const deleteUser = () => {
     axios.delete(
       `${API}/users/${userFocused._id}`
     )
     .then(response => {
       if (response.status === 200) {
         users.splice(userFocused.idx, 1);
-        const newUsers = [...users];
-        setUsers(newUsers);
+        setUsers([...users]);
       }
       closeConfirmBox();
     })
@@ -45,11 +44,12 @@ const UserList = (props) => {
         header='Delete User'
         open={openConfirm}
         onCancel={closeConfirmBox}
-        onConfirm={banUser}
+        onConfirm={deleteUser}
       />
       <Table celled>
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell>Login Code</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
             <Table.HeaderCell>Date Joined</Table.HeaderCell>
@@ -61,13 +61,18 @@ const UserList = (props) => {
           {
             users?.map((user, idx) => 
               (<Table.Row key={user._id}>
+                <Table.Cell>{user.unique_code}</Table.Cell>
                 <Table.Cell>{user.profile?.firstName} {user.profile?.lastName}</Table.Cell>
                 <Table.Cell>{user.email}</Table.Cell>
                 <Table.Cell>{user.createdAt}</Table.Cell>
                 <Table.Cell>
                   <Button.Group>
                     <Button icon='edit' />
-                    <Button icon='delete' value={user} onClick={() => { user.idx = idx; openDeleteConfirmBox(user)}} />
+                    <Button
+                      icon='delete' value={user}
+                      onClick={() => { user.idx = idx; openDeleteConfirmBox(user)}}
+                      title='Click to delete user'
+                    />
                   </Button.Group>
                 </Table.Cell>
               </Table.Row>))

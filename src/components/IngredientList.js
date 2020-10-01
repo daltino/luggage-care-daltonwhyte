@@ -21,15 +21,14 @@ export const IngredientList = (props) => {
   }
   const closeConfirmBox = () => setOpenConfirm(false)
 
-  const banUser = () => {
+  const deleteIngredient = () => {
     axios.delete(
       `${API}/ingredients/${ingredientFocused._id}`
     )
     .then(response => {
       if (response.status === 200) {
         ingredients.splice(ingredientFocused.idx, 1);
-        const newMeals = [...ingredients];
-        setMeals(newMeals);
+        setMeals([...ingredients]);
       }
       closeConfirmBox();
     })
@@ -45,7 +44,7 @@ export const IngredientList = (props) => {
         header='Delete User'
         open={openConfirm}
         onCancel={closeConfirmBox}
-        onConfirm={banUser}
+        onConfirm={deleteIngredient}
       />
       <Table celled>
         <Table.Header>
@@ -65,13 +64,20 @@ export const IngredientList = (props) => {
               (<Table.Row key={ingredient._id}>
                 <Table.Cell>{ingredient.name}</Table.Cell>
                 <Table.Cell>{ingredient.description}</Table.Cell>
-                <Table.Cell>{ingredient.options}</Table.Cell>
-                <Table.Cell>{ingredient.status}</Table.Cell>
+                <Table.Cell>{ingredient.options.join(', ')}</Table.Cell>
+                <Table.Cell>{ingredient.status ? 'Active' : 'Inactive'}</Table.Cell>
                 <Table.Cell>{ingredient.createdAt}</Table.Cell>
                 <Table.Cell>
                   <Button.Group>
+                    <Button
+                      icon={ingredient.status ? 'lock open' : 'lock'}
+                      title={ingredient.status ? 'Click to lock Ingredient' : 'Click to unlock Ingredient'} />
                     <Button icon='edit' />
-                    <Button icon='delete' value={ingredient} onClick={() => { ingredient.idx = idx; openDeleteConfirmBox(ingredient)}} />
+                    <Button
+                      icon='delete' value={ingredient}
+                      onClick={() => { ingredient.idx = idx; openDeleteConfirmBox(ingredient)}}
+                      title='Click to delete ingredient'
+                      />
                   </Button.Group>
                 </Table.Cell>
               </Table.Row>))
