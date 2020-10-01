@@ -84,6 +84,7 @@ npm start
 # Visit http://localhost:4242 in your web browser
 # To use the admin portal go to http://localhost:4242/admin
 # You can create Users, Orders, Meals and Ingredients
+# You can also place Quick Orders by entering the customers unique code
 ```
 
 - To run just the API service in dev run:

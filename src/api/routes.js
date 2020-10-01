@@ -11,6 +11,8 @@ exports.routes = app => {
 
   // Create a new Order
   router.post('/orders', OrderController.create);
+  // Create a new Quick Order
+  router.post('/orders/quick', OrderController.createQuickOrder);
   // Retrieve all Orders
   router.get('/orders', OrderController.findAll);
   // Retrieve all active Orders
