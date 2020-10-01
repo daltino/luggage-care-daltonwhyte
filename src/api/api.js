@@ -11,7 +11,7 @@ import { serverRenderer } from '../renderers/server';
 import { MongoClient } from 'mongodb';
 import { connection as db } from './models';
 
-import { routes } from './routes'
+import { routes, adminRoutes } from './routes'
 
 const app = express();
 app.enable('trust proxy');
@@ -28,13 +28,14 @@ app.locals.serialize = serialize;
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: true
   })
   .then(() => {
-    console.log("Connected to the LC Database!");
+    console.log('Connected to the LC Database!');
   })
   .catch(error => {
-    console.log("Failure connecting to the LC Database!", error);
+    console.log('Failure connecting to the LC Database!', error);
     process.exit();
   });
 
@@ -44,15 +45,25 @@ try {
   app.locals.gVars = {};
 }
 
-// app.get('/', async (req, res) => {
-//   try {
-//     const vars = await serverRenderer();
-//     res.render('index', vars);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send('Server error');
-//   }
-// });
+app.get('/', async (req, res) => {
+  try {
+    const vars = await serverRenderer(false, req.url);
+    res.render('index', vars);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+app.get('/admin*', async (req, res) => {
+  try {
+    const vars = await serverRenderer(true, req.url);
+    res.render('index', vars);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
 
 // app.get('/users/', (req, res) => {
 //   const db = yield MongoClient.connect(MONGO_URL);
@@ -65,6 +76,7 @@ try {
 //   }
 // });
 
+adminRoutes(app);
 routes(app);
 
 app.listen(config.port, config.host, () => {

@@ -6,7 +6,7 @@ const Order = db.order;
 // Create and Save a new User
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.Order || !req.body.meal) {
+  if (!req.body.user || !req.body.meal) {
     res.status(400).send({ message: 'Order and Meal is required!' });
     return;
   }
@@ -22,7 +22,7 @@ exports.create = (req, res) => {
   // Get meal and check if its active
   const Meal = db.meal;
   Meal
-    .findById(meal)
+    .findById(req.body.meal)
     .then(data => {
       if (data.status) {
         // Save Order in the database
@@ -49,6 +49,9 @@ exports.findAll = (req, res) => {
   var condition = {};
 
   Order.find(condition)
+    .populate('user', 'profile')
+    .populate('meal', 'name')
+    .populate('ingredients', 'name')
     .then(data => {
       res.send(data);
     })

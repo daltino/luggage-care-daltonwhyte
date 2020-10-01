@@ -1,22 +1,34 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
-import { App } from 'components/App';
+import Homepage from 'components/layouts/Homepage';
+import AdminPage from 'components/layouts/AdminPage';
+import { StaticRouter } from 'react-router-dom';
 
-export async function serverRenderer() {
+
+export async function serverRenderer(admin = false, url) {
   const initialData = {
-    appName: 'Luggace Care Restaurant',
+    appName: 'Luggage Care Restaurant',
   };
 
   const pageData = {
-    title: `Hello ${initialData.appName}`,
+    title: `${initialData.appName}`,
+    admin
   };
+
+  const context = {};
 
   return Promise.resolve({
     initialData,
-    initialMarkup: ReactDOMServer.renderToString(
-      <App initialData={initialData} />
-    ),
+    initialMarkup: admin
+    ? ReactDOMServer.renderToString(
+      <StaticRouter location={url} context={context}>
+        <AdminPage />
+      </StaticRouter>)
+    : ReactDOMServer.renderToString(
+      <StaticRouter location={url} context={context}>
+        <Homepage mobile={false} />
+      </StaticRouter>),
     pageData,
   });
 }
