@@ -36,6 +36,16 @@ Make sure to include instructions on how to get the application up and running a
 • A button on the “admin mobile page” can be pressed to call ahead using MessageBird to the subway restaurant, that a big order is coming their way ;)
 • You unit­test and acceptance­test the “complex” application
 
+## Development
+
+I have chosen to build the app with the following stack:
+
+- React
+- MongoDB
+- Node + Express
+
+I followed an isomorphic approach using both server-side and client side rendering, to speed up performance. More effort was put into the admin portal, due to my week been ver busy.
+
 ## Setting up the Application
 
 Run the following commands to setup the application locally:
@@ -72,6 +82,8 @@ mongod
 ```bash
 npm start
 # Visit http://localhost:4242 in your web browser
+# To use the admin portal go to http://localhost:4242/admin
+# You can create Users, Orders, Meals and Ingredients
 ```
 
 - To run just the API service in dev run:
