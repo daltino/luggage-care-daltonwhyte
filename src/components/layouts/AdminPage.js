@@ -6,13 +6,8 @@ import {
   Button,
   Form,
   Grid,
-  GridColumn,
   Header,
-  Image,
-  Input,
-  Label,
   Menu,
-  Message,
   Segment } from 'semantic-ui-react';
 import UserList from '../UserList';
 import UserForm from './forms/UserForm';

@@ -1,8 +1,10 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-multi-comp */
 
-import React, { useState, Component } from 'react';
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, Component } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import config from '../../env/config.dev';
 import { createMedia } from '@artsy/fresnel'
 import {
   Button,
@@ -11,13 +13,16 @@ import {
   Grid,
   Header,
   Icon,
-  Image,
+  Modal,
   List,
   Menu,
   Segment,
   Sidebar,
   Visibility,
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
+import QuickOrderForm from './forms/QuickOrderForm';
+
+const API = `http://${config.host}:${config.port}/api/admin`;
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -30,35 +35,59 @@ const { MediaContextProvider, Media } = createMedia({
 /* 
  * @TODO: Inline styling can be refactored later
  */
-const HomepageHeading = ({ mobile }) => (
-  <Container text>
-    <Header
-      as='h1'
-      content='LC Restaurant'
-      inverted
-      style={{
-        fontSize: mobile ? '2em' : '4em',
-        fontWeight: 'normal',
-        marginBottom: 0,
-        marginTop: mobile ? '1.5em' : '3em',
-      }}
-    />
-    <Header
-      as='h2'
-      content='Order your best sandwiches.'
-      inverted
-      style={{
-        fontSize: mobile ? '1.5em' : '1.7em',
-        fontWeight: 'normal',
-        marginTop: mobile ? '0.5em' : '1.5em',
-      }}
-    />
-    <Button primary size='huge'>
-      Get Started
-      <Icon name='right arrow' />
-    </Button>
-  </Container>
-)
+const HomepageHeading = ({ mobile }) => {
+  const [meal, setMeal] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+
+  useEffect(() => {
+    axios.get(
+      `${API}/meals/active`
+    )
+    .then(data => setMeal(data.data));
+
+    axios.get(
+      `${API}/ingredients`
+    )
+    .then(data => setIngredients(data.data));
+  }, []);
+
+  return (
+    <Container text>
+      <Header
+        as='h1'
+        content='LC Restaurant'
+        inverted
+        style={{
+          fontSize: mobile ? '2em' : '4em',
+          fontWeight: 'normal',
+          marginBottom: 0,
+          marginTop: mobile ? '1.5em' : '3em',
+        }}
+      />
+      <Header
+        as='h2'
+        content='Order your best sandwiches.'
+        inverted
+        style={{
+          fontSize: mobile ? '1.5em' : '1.7em',
+          fontWeight: 'normal',
+          marginTop: mobile ? '0.5em' : '1.5em',
+        }}
+      />
+      <Modal
+        trigger={
+          <Button primary size='huge'>
+            <Icon name='food' />
+            Quick Order
+          </Button>
+        }
+        header='Place your Quick Order'
+        content={<QuickOrderForm meal={meal} ingredients={ingredients} />}
+        actions={[]}
+      />
+    </Container>
+  )
+}
 
 HomepageHeading.propTypes = {
   mobile: PropTypes.bool,

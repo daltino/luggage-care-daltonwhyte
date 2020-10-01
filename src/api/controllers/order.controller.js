@@ -3,7 +3,7 @@ import shortid from 'shortid';
 
 const Order = db.order;
 
-// Create and Save a new User
+// Create and Save a new Order
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.user || !req.body.meal) {
@@ -39,6 +39,47 @@ exports.create = (req, res) => {
         });
       } else {
         res.status(400).send({ message: 'Meal is no longer active, you cannot place this order'})
+      }
+    });
+};
+
+// Create Quick Order
+exports.createQuickOrder = (req, res) => {
+  // Validate request
+  if (!req.body.unique_code || !req.body.meal) {
+    res.status(400).send({ message: 'Order and Meal is required!' });
+    return;
+  }
+
+  // Get user by unique_code
+  const User = db.user;
+  User
+    .findOne({'unique_code': req.body.unique_code})
+    .then(data => {
+      console.log(data);
+      if (data.unique_code) {
+        // Create an Order
+        const order = new Order({
+          unique_code: shortid.generate(),
+          user: data,
+          meal: req.body.meal,
+          ingredients: req.body.ingredients
+        });
+
+        // Save Order in the database
+        order
+        .save(order)
+        .then(data => {
+          res.send(data);
+        })
+        .catch(err => {
+          res.status(500).send({
+            message:
+              err.message || 'Error while creating the order.'
+          });
+        });
+      } else {
+        res.status(400).send({ message: 'User not found or incorrect user code'})
       }
     });
 };
