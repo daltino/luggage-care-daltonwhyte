@@ -65,17 +65,6 @@ app.get('/admin*', async (req, res) => {
   }
 });
 
-// app.get('/users/', (req, res) => {
-//   const db = yield MongoClient.connect(MONGO_URL);
-//   try {
-//     const randomNumbers = utils.random(req.params.numCards);
-//     res.send({ randomNumbers });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send('Server error');
-//   }
-// });
-
 adminRoutes(app);
 routes(app);
 
