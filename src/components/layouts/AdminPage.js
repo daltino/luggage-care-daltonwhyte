@@ -92,7 +92,7 @@ const AdminPage = () => {
           <Menu.Item
             name='LC Restaurant'
             active={activeItem === 'admin_home'}
-            onClick={handleItemClick}
+            onClick={() => {history.push('/admin')}}
           />
           <Menu.Item
             name='users'
@@ -109,10 +109,17 @@ const AdminPage = () => {
             active={activeItem === 'meals'}
             onClick={() => { setActiveItem('meals'); history.push('/admin/meals')}}
           />
+          <Menu.Item
+            name='ingredients'
+            active={activeItem === 'ingredients'}
+            onClick={() => { setActiveItem('ingredients'); history.push('/admin/ingredients')}}
+          />
           <Menu.Menu position='right'>
-            <Menu.Item>
-              <Input icon='search' placeholder='Search...' />
-            </Menu.Item>
+            <Menu.Item
+              name='log out'
+              active={activeItem === 'logout'}
+              onClick={() => {window.location = '/'}}
+            />
           </Menu.Menu>
         </Menu>
 

@@ -74,7 +74,7 @@ const SideMenu = (props) => {
         <Menu.Item
           name='add-ingredient'
         >
-          <Link to="/admin/ingredients/add-meal" >Add Ingredients</Link>
+          <Link to="/admin/ingredients/add-ingredient" >Add Ingredients</Link>
         </Menu.Item>
       </Menu>
     );
