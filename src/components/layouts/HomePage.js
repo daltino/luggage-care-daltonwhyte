@@ -92,17 +92,20 @@ class DesktopContainer extends Component {
               inverted={!fixed}
               pointing={!fixed}
               secondary={!fixed}
+              color={'purple'}
               size='large'
             >
               <Container>
                 <Menu.Item as='a' active>
                   Home
                 </Menu.Item>
-                <Menu.Item as='a'>Work</Menu.Item>
+                <Menu.Item onClick={() => {window.location = '/admin'}}>
+                  Admin
+                </Menu.Item>
                 <Menu.Item position='right'>
-                  <Button as='a' inverted={!fixed}>
+                  {/* <Button as='a' inverted={!fixed}>
                     Log in
-                  </Button>
+                  </Button> */}
                 </Menu.Item>
               </Container>
             </Menu>
@@ -145,11 +148,10 @@ class MobileContainer extends Component {
             <Menu.Item as='a' active>
               Home
             </Menu.Item>
-            <Menu.Item as='a'>Work</Menu.Item>
-            <Menu.Item as='a'>Company</Menu.Item>
-            <Menu.Item as='a'>Careers</Menu.Item>
+            <Menu.Item as='a' onClick={() => {window.location = '/admin'}}>
+              Admin
+            </Menu.Item>
             <Menu.Item as='a'>Log in</Menu.Item>
-            <Menu.Item as='a'>Sign Up</Menu.Item>
           </Sidebar>
 
           <Sidebar.Pusher dimmed={sidebarOpened}>
@@ -165,9 +167,9 @@ class MobileContainer extends Component {
                     <Icon name='sidebar' />
                   </Menu.Item>
                   <Menu.Item position='right'>
-                    <Button as='a' inverted>
+                    {/* <Button as='a' inverted>
                       Log in
-                    </Button>
+                    </Button> */}
                     <Button as='a' inverted style={{ marginLeft: '0.5em' }}>
                       Sign Up
                     </Button>
@@ -203,40 +205,16 @@ ResponsiveContainer.propTypes = {
 const Homepage = () => (
   <ResponsiveContainer>
 
-    <Segment style={{ padding: '0em' }} vertical>
-      <Grid celled='internally' columns='equal' stackable>
-        <Grid.Row textAlign='center'>
-          <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-            <Header as='h3' style={{ fontSize: '2em' }}>
-              "What a Company"
-            </Header>
-            <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
-          </Grid.Column>
-          <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-            <Header as='h3' style={{ fontSize: '2em' }}>
-              "I shouldn't have gone with their competitor."
-            </Header>
-            <p style={{ fontSize: '1.33em' }}>
-              <Image avatar src='/images/avatar/large/nan.jpg' />
-              <b>Nan</b> Chief Fun Officer Acme Toys
-            </p>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
-
     <Segment style={{ padding: '8em 0em' }} vertical>
       <Container text>
         <Header as='h3' style={{ fontSize: '2em' }}>
-          Breaking The Grid, Grabs Your Attention
+          Meal 1
         </Header>
         <p style={{ fontSize: '1.33em' }}>
-          Instead of focusing on content creation and hard work, we have learned how to master the
-          art of doing nothing by providing massive amounts of whitespace and generic content that
-          can seem massive, monolithic and worth your attention.
+          Meal 1 Description
         </p>
         <Button as='a' size='large'>
-          Read More
+          Order
         </Button>
 
         <Divider
@@ -245,19 +223,36 @@ const Homepage = () => (
           horizontal
           style={{ margin: '3em 0em', textTransform: 'uppercase' }}
         >
-          <a href='#'>Case Studies</a>
+          <a href='#'>LC</a>
         </Divider>
 
         <Header as='h3' style={{ fontSize: '2em' }}>
-          Did We Tell You About Our Bananas?
+          Meal 2
         </Header>
         <p style={{ fontSize: '1.33em' }}>
-          Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but
-          it's really true. It took years of gene splicing and combinatory DNA research, but our
-          bananas can really dance.
+          Meal 2 Description
         </p>
         <Button as='a' size='large'>
-          I'm Still Quite Interested
+          Order
+        </Button>
+
+        <Divider
+          as='h4'
+          className='header'
+          horizontal
+          style={{ margin: '3em 0em', textTransform: 'uppercase' }}
+        >
+          <a href='#'>LC</a>
+        </Divider>
+
+        <Header as='h3' style={{ fontSize: '2em' }}>
+          Meal 3
+        </Header>
+        <p style={{ fontSize: '1.33em' }}>
+          Meal 3 Description
+        </p>
+        <Button as='a' size='large'>
+          Order
         </Button>
       </Container>
     </Segment>
